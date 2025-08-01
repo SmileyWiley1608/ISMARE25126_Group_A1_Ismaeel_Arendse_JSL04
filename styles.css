@@ -31,24 +31,24 @@ body {
 /* ===============
    Add Task Button
 ================ */
+/* Desktop: Button inside header, aligned to right */
 #add-task-btn {
-  position: fixed;
   background-color: #635fc7;
   color: white;
   border: none;
-  border-radius: 9999px;
+  border-radius: 100px;
   padding: 14px 24px;
-  font-size: 1.25rem;
+  font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
   box-shadow: 0 4px 8px rgba(99, 95, 199, 0.5);
   transition: background-color 0.3s ease, transform 0.2s ease;
-  z-index: 1000;
   user-select: none;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
+  margin-right: 113px;  /* ⬅️ Aligns with right spacing */
 }
 
 #add-task-btn::after {
@@ -57,39 +57,22 @@ body {
   font-size: 1.25rem;
 }
 
-/* 🟣 Responsive override for mobile */
-@media screen and (max-width: 576px) {
-  #add-task-btn {
-    right: 24px;
-    bottom: 24px;
-    padding: 14px;
-    font-size: 1.5rem;
-    width: 48px;
-    height: 48px;
-    line-height: 48px;
-    text-align: center;
-    justify-content: center;
-  }
-
-  #add-task-btn::before {
-    content: "";
-  }
-
-  #add-task-btn::after {
-    content: "+";
-  }
-}
-
-/* 🖥️ Desktop: Align with launcher career at top */
+/* Optional: remove extra position rules */
 @media screen and (min-width: 577px) {
   #add-task-btn {
-    padding: 10px 16px;
-    font-size: 1rem;
-    width: auto;
-    height: auto;
+    position: static;
   }
 }
 
+
+#add-task-btn:hover {
+  background-color: #5248c8;
+  transform: scale(1.05);
+}
+
+#add-task-btn:active {
+  transform: scale(0.95);
+}
 
 #add-task-btn:hover {
   background-color: #5248c8;
@@ -379,35 +362,6 @@ h2 {
   }
 }
 
-/* Add Task Button */
-#add-task-btn {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  background-color: #635fc7;
-  color: white;
-  border: none;
-  border-radius: 9999px;
-  padding: 14px 24px;
-  font-size: 1.25rem;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: 0 4px 8px rgba(99, 95, 199, 0.5);
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  z-index: 1000;
-  user-select: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-}
-
-#add-task-btn::after {
-  content: "+";
-  font-weight: 700;
-  font-size: 1.25rem;
-}
-
 /* 🟣 Responsive override for mobile */
 @media screen and (max-width: 576px) {
   #add-task-btn {
@@ -537,3 +491,4 @@ h2 {
     display: none;
   }
 }
+

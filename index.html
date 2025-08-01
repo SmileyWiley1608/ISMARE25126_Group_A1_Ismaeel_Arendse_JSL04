@@ -32,18 +32,24 @@
 
     <!-- Main Layout: Header with board title, add task button, and main content area for task columns. -->
     <div id="layout">
-      <header id="header" class="sticky-header">
-        <div class="header-name-div">
-          <img
-            src="./assets/favicon.svg"
-            alt="logo-mobile"
-            class="logo-mobile"
-          />
-          <h2 class="header-board-name" id="header-board-name">
-            Launch Career
-          </h2>
-        </div>
-      </header>
+    <header>
+  <div class="header-name-div">
+    <img
+      src="./assets/favicon.svg"
+      alt="logo-mobile"
+      class="logo-mobile"
+    />
+    <h2 class="header-board-name" id="header-board-name">
+      Launch Career
+    </h2>
+  </div>
+
+  <!-- ✅ Add Task button inside header -->
+  <button id="add-task-btn">
+    <span class="btn-text">Add Task</span>
+  </button>
+</header>
+
 
       <div class="container">
         <main class="card-column-main">
@@ -89,11 +95,7 @@
       </div>
     </div>
 
-    <!-- Add Task Button -->
- <button id="add-task-btn">
-  <span class="btn-text">Add Task</span>
 
-</button>
 
 
     <!-- Modal Structure for Add/Edit Task -->

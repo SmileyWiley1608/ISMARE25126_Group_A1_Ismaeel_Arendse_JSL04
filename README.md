@@ -1,151 +1,129 @@
-JSL04 Challenge
-Overview
-This project is my implementation of a Kanban-style task management board, built with HTML, CSS, and JavaScript. It focuses on DOM manipulation, modal functionality, responsive layout, and live task management — offering a more advanced, visual, and interactive version of basic JavaScript task handling.
+# 🧩 JSL04 — Responsive Kanban Task Board
 
-Through this, I aimed to:
+## 🔍 Overview
 
-Design a responsive and visually polished user interface
+**JSL04** is a fully responsive Kanban task board built with **HTML**, **CSS**, and **JavaScript**. Designed for real-time interactivity and clean user experience, this project features dynamic task management, modal-based CRUD operations, and responsive layout adaptation across desktop, tablet, and mobile screens. It emphasizes both functionality and modern UI aesthetics.
 
-Allow users to add, edit, and organize tasks using a dynamic modal
+---
 
-Implement real-time DOM updates for task changes
+## ✨ Features
 
-Show live task counts per status category
+- ✅ **Three Status Columns**  
+  Organize tasks into **To Do**, **Doing**, and **Done**, each with color-coded status indicators.
 
-Practice responsive design and front-end project structure
+- 🧩 **Live Task Rendering**  
+  Tasks render immediately upon creation or update — no page reloads.
 
-Features Covered
-I built functionality to:
+- ✍️ **Modal Form for Add/Edit**  
+  A modal interface allows users to create or edit tasks with fields for **title**, **description**, and **status**.
 
-Display tasks grouped by status: To Do, Doing, and Done
+- 🔁 **Edit Tasks Instantly**  
+  Clicking any task opens it in the modal for quick editing.
 
-Dynamically update tasks on the page as they are added or edited
+- 🔢 **Dynamic Task Counts**  
+  Each column header shows the live count of tasks within it.
 
-Open a modal form with inputs for title, description, and status
+- 📱 **Fully Responsive Layout**  
+  Adapts seamlessly from 3-column layout (desktop) to 2 or 1 (tablet/mobile).
 
-Add new tasks or edit existing ones by clicking on them
+- 🎨 **Modern UI Styling**  
+  Smooth shadows, rounded corners, consistent color themes, and subtle transitions enhance UX.
 
-Track and display task counts in each column
+---
 
-Create a responsive layout for mobile, tablet, and desktop users
+## 🧱 Project Structure
 
-Style everything with modern fonts, shadows, and color-coded status dots
+### 🗂 HTML
 
-Structure
-The project consists of:
+- **Sidebar**: Includes a logo and board navigation.
+- **Header**: Displays the board name and “Add Task” button.
+- **Columns**: Each column (`.column-div`) contains filtered tasks by status.
+- **Modal**: Reusable modal for adding or editing tasks.
 
-✅ A semantic HTML layout for the full Kanban interface
-
-🎨 A CSS stylesheet using variables, media queries, and modern layout tools like Flexbox and Grid
-
-⚙️ A JavaScript script that manages task state, DOM interaction, and modal behavior
-
-HTML
-The HTML is structured around a main Kanban board layout:
-
-html
-Copy
-Edit
-
+```html
 <div class="column-div" data-status="todo">
   <div class="column-head-div">
     <span class="dot" id="todo-dot"></span>
     <h4 class="columnHeader">TODO (4)</h4>
   </div>
-  <div class="tasks-container">
-    <div class="task-div">Launch Epic Career 🚀</div>
-    <!-- ... -->
+  <div class="tasks-container" id="todo-tasks">
+    <!-- Tasks dynamically inserted here -->
   </div>
 </div>
-There are three columns: todo, doing, and done.
+```
 
-Each task is placed inside its corresponding column dynamically.
+---
 
-A modal is included in the HTML for adding or editing tasks.
+### 🎨 CSS
 
-CSS
-The styling is responsive and modular, using custom variables and modern layout techniques:
+- **Custom Variables**: Theme colors, spacing, and fonts are defined with `--primary-color`, `--secondary-color`, etc.
+- **Layout**: Uses **Flexbox** and **CSS Grid** for structure.
+- **Responsive Design**: Media queries ensure optimal display on all screen sizes.
+- **Task Cards**: Styled with hover effects, box shadows, and smooth transitions.
+- **Modal**: Includes a blurred overlay, responsive width, and organized form layout.
 
-css
-Copy
-Edit
-:root {
---primary-color: #ffffff;
---secondary-color: #f4f7fd;
---primary-font-color: #000000;
---secondary-font-color: #828fa3;
---sidebar-width: 300px;
-}
-
+```css
 .card-column-main {
-display: grid;
-grid-template-columns: repeat(3, minmax(0, 304px));
-gap: 8px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 304px));
+  gap: 8px;
 }
-The task board uses a CSS Grid for columns.
+```
 
-Media queries are used to:
+---
 
-Stack columns vertically on mobile
+### ⚙️ JavaScript
 
-Hide the sidebar on smaller screens
+Handles the full logic layer:
 
-Adjust font sizes and spacing for readability
+- **Task Data**: Tasks are stored in an array with `id`, `title`, `description`, and `status`.
+- **Rendering**: `renderTasks()` updates the DOM based on task data.
+- **Modal Control**:
+  - Add Mode: Clears fields for new entry.
+  - Edit Mode: Loads existing data into the form.
+- **Save Logic**:
+  - Adds a new task with a unique ID.
+  - Edits modify the existing object.
+- **Header Updates**: `updateColumnHeaders()` dynamically updates the task counts.
 
-Task cards have consistent spacing, shadows, and rounded corners:
+```js
+function renderTasks() {
+  todoContainer.innerHTML = "";
+  doingContainer.innerHTML = "";
+  doneContainer.innerHTML = "";
 
-css
-Copy
-Edit
-.task-div {
-background-color: var(--primary-color);
-border-radius: 12px;
-box-shadow: var(--primary-box-shadow);
-padding-left: 15px;
-font-weight: bold;
-cursor: pointer;
+  tasks.forEach(task => {
+    const taskDiv = document.createElement("div");
+    taskDiv.className = "task-div";
+    taskDiv.textContent = task.title;
+    taskDiv.dataset.taskId = task.id;
+
+    taskDiv.addEventListener("click", () => openModal(task.id));
+
+    switch(task.status) {
+      case "todo": todoContainer.appendChild(taskDiv); break;
+      case "doing": doingContainer.appendChild(taskDiv); break;
+      case "done": doneContainer.appendChild(taskDiv); break;
+    }
+  });
+
+  updateColumnHeaders();
 }
-JavaScript
-The JavaScript handles all task functionality:
+```
 
-js
-Copy
-Edit
-const tasks = [
-{ id: 1, title: "Launch Epic Career 🚀", description: "Epic journey begins", status: "todo" },
-// ...
-];
-A task array stores all data.
+---
 
-Tasks are rendered into columns using a renderTasks() function.
+## 🧪 How to Use
 
-The modal form allows adding new tasks or editing existing ones:
+1. Open the project in your browser (via Live Server or direct file path).
+2. Click **“Add Task”** to open the modal.
+3. Enter the task's **title**, **description**, and **status**.
+4. Click **Save** — the task will appear in the appropriate column.
+5. Click on any existing task to edit it.
+6. Task counts update automatically per column.
 
-js
-Copy
-Edit
-function openAddModal() {
-modalHeader.textContent = "Add Task";
-modal.classList.remove("hidden");
-}
-Clicking a task opens it in edit mode.
+---
 
-Clicking the Add Task button opens an empty modal.
+## 📄 License
 
-When tasks are saved, the array and DOM update instantly.
-
-Task counts update automatically using updateColumnHeaders().
-
-How to Use This Project
-Open the project in your browser (via Live Server or direct file path).
-
-Click the “Add Task” button (top-right or floating depending on screen size).
-
-Fill in the modal with a title, description, and status.
-
-Click a task to edit it directly.
-
-All updates will reflect immediately and the column headers will show updated task counts.
-
-License
-This project is for educational use only and is part of a front-end JavaScript learning challenge.
+This project was built for learning and practice purposes as part of a front-end JavaScript challenge. It showcases DOM manipulation, responsive UI design, and interactive component logic using vanilla JS, HTML, and CSS.
