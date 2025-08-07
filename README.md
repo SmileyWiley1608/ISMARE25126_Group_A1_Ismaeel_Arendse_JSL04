@@ -1,9 +1,20 @@
-# 🧩 JSL04 — Responsive Kanban Task Board
+# 🧩 JSL05 — Responsive Kanban Task Board
 
 ## 🔍 Overview
 
 **JSL04** is a fully responsive Kanban task board built with **HTML**, **CSS**, and **JavaScript**. Designed for real-time interactivity and clean user experience, this project features dynamic task management, modal-based CRUD operations, and responsive layout adaptation across desktop, tablet, and mobile screens. It emphasizes both functionality and modern UI aesthetics.
 
+---
+
+## 🛠️ Codebase Enhancements
+
+This version includes refined, human-friendly comments across all source files to boost readability and maintainability:
+
+- 📝 HTML: Clear descriptions highlight the purpose of key structural elements, improving navigation for new developers.
+- 🎯 JavaScript: Major logic blocks and functions are explained with concise, natural-language summaries for better understanding.
+- 💅 CSS: Section headers now describe layout intentions and styling roles, making the design flow easier to follow.
+
+These updates enhance the overall developer experience by making the code more self-explanatory and collaborative.
 ---
 
 ## ✨ Features
@@ -92,7 +103,7 @@ function renderTasks() {
   doingContainer.innerHTML = "";
   doneContainer.innerHTML = "";
 
-  tasks.forEach(task => {
+  tasks.forEach((task) => {
     const taskDiv = document.createElement("div");
     taskDiv.className = "task-div";
     taskDiv.textContent = task.title;
@@ -100,10 +111,16 @@ function renderTasks() {
 
     taskDiv.addEventListener("click", () => openModal(task.id));
 
-    switch(task.status) {
-      case "todo": todoContainer.appendChild(taskDiv); break;
-      case "doing": doingContainer.appendChild(taskDiv); break;
-      case "done": doneContainer.appendChild(taskDiv); break;
+    switch (task.status) {
+      case "todo":
+        todoContainer.appendChild(taskDiv);
+        break;
+      case "doing":
+        doingContainer.appendChild(taskDiv);
+        break;
+      case "done":
+        doneContainer.appendChild(taskDiv);
+        break;
     }
   });
 
