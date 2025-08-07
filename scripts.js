@@ -1,21 +1,43 @@
-// Task array with initial tasks
-const tasks = [
-  { id: 1, title: "Launch Epic Career 🚀", description: "Epic journey begins", status: "todo" },
-  { id: 2, title: "Conquer React⚛️", description: "Learn React fundamentals", status: "todo" },
-  { id: 3, title: "Understand Databases⚙️", description: "Learn about SQL and NoSQL", status: "todo" },
-  { id: 4, title: "Crush Frameworks🖼️", description: "Explore popular UI frameworks", status: "todo" },
-  { id: 5, title: "Master JavaScript 💛", description: "Become a JS ninja", status: "doing" },
-  { id: 6, title: "Never Give Up 🏆", description: "Stay motivated", status: "doing" },
-  { id: 7, title: "Explore ES6 Features 🚀", description: "Learn modern JS syntax", status: "done" },
-  { id: 8, title: "Have fun 🥳", description: "Enjoy coding", status: "done" },
-];
+// ==============================
+// Local Storage Module
+// ==============================
 
-// DOM elements for containers
+/**
+ * Get tasks from localStorage, or fallback to default starter tasks
+ * @returns {Array} tasks array
+ */
+function loadTasksFromStorage() {
+  const stored = localStorage.getItem("tasks");
+  return stored ? JSON.parse(stored) : [
+    { id: 1, title: "Launch Epic Career 🚀", description: "Epic journey begins", status: "todo" },
+    { id: 2, title: "Conquer React⚛️", description: "Learn React fundamentals", status: "todo" },
+    { id: 3, title: "Understand Databases⚙️", description: "Learn about SQL and NoSQL", status: "todo" },
+    { id: 4, title: "Crush Frameworks🖼️", description: "Explore popular UI frameworks", status: "todo" },
+    { id: 5, title: "Master JavaScript 💛", description: "Become a JS ninja", status: "doing" },
+    { id: 6, title: "Never Give Up 🏆", description: "Stay motivated", status: "doing" },
+    { id: 7, title: "Explore ES6 Features 🚀", description: "Learn modern JS syntax", status: "done" },
+    { id: 8, title: "Have fun 🥳", description: "Enjoy coding", status: "done" },
+  ];
+}
+
+/**
+ * Save current tasks to localStorage
+ */
+function saveTasksToStorage() {
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+// ==============================
+// Task State & DOM References
+// ==============================
+
+let tasks = loadTasksFromStorage();
+let editingTaskId = null;
+
 const todoContainer = document.getElementById("todo-tasks");
 const doingContainer = document.getElementById("doing-tasks");
 const doneContainer = document.getElementById("done-tasks");
 
-// Modal & form elements
 const modal = document.getElementById("task-modal");
 const modalTitleInput = document.getElementById("modal-title");
 const modalDescInput = document.getElementById("modal-description");
@@ -24,13 +46,16 @@ const closeModalBtn = document.getElementById("close-modal");
 const saveTaskBtn = document.getElementById("save-task");
 const modalHeader = document.getElementById("modal-header");
 
-// Buttons
 const launchCareerBtn = document.getElementById("launchCareerBtn");
 const addTaskBtn = document.getElementById("add-task-btn");
 
-let editingTaskId = null; // null means adding new task
+// ==============================
+// Task Rendering Module
+// ==============================
 
-// Render tasks in columns
+/**
+ * Render tasks in their respective columns
+ */
 function renderTasks() {
   todoContainer.innerHTML = "";
   doingContainer.innerHTML = "";
@@ -42,10 +67,9 @@ function renderTasks() {
     taskDiv.textContent = task.title;
     taskDiv.dataset.taskId = task.id;
 
-    // Click to open edit modal
     taskDiv.addEventListener("click", () => openModal(task.id));
 
-    switch(task.status) {
+    switch (task.status) {
       case "todo":
         todoContainer.appendChild(taskDiv);
         break;
@@ -61,7 +85,9 @@ function renderTasks() {
   updateColumnHeaders();
 }
 
-// Update counts in headers
+/**
+ * Update the header counts for each column
+ */
 function updateColumnHeaders() {
   const todoCount = tasks.filter(t => t.status === "todo").length;
   const doingCount = tasks.filter(t => t.status === "doing").length;
@@ -72,7 +98,30 @@ function updateColumnHeaders() {
   document.getElementById("doneText").textContent = `DONE (${doneCount})`;
 }
 
-// Open modal to add a new task
+// ==============================
+// Modal Management
+// ==============================
+
+/**
+ * Show modal and prevent background scroll
+ */
+function showModal() {
+  modal.classList.remove("hidden");
+  document.body.style.overflow = "hidden";
+}
+
+/**
+ * Close modal and restore scroll
+ */
+function closeModal() {
+  modal.classList.add("hidden");
+  document.body.style.overflow = "";
+  editingTaskId = null;
+}
+
+/**
+ * Open modal in "Add Task" mode
+ */
 function openAddModal() {
   editingTaskId = null;
   modalHeader.textContent = "Add Task";
@@ -82,60 +131,43 @@ function openAddModal() {
   showModal();
 }
 
-// Open modal to edit existing task
+/**
+ * Open modal to edit an existing task
+ * @param {number} taskId
+ */
 function openModal(taskId) {
-  editingTaskId = taskId;
-  modalHeader.textContent = "Edit Task";
-
   const task = tasks.find(t => t.id === taskId);
   if (!task) return;
 
+  editingTaskId = taskId;
+  modalHeader.textContent = "Edit Task";
   modalTitleInput.value = task.title;
   modalDescInput.value = task.description;
   modalStatusSelect.value = task.status;
   showModal();
 }
 
-// Show modal & disable page scroll
-function showModal() {
-  modal.classList.remove("hidden");
-  document.body.style.overflow = "hidden";
-}
+// ==============================
+// Save Task Logic
+// ==============================
 
-// Close modal & restore scroll
-function closeModal() {
-  modal.classList.add("hidden");
-  document.body.style.overflow = "";
-  editingTaskId = null;
-}
-
-// Save new or edited task
+/**
+ * Save a new or edited task
+ */
 function saveTask() {
   const title = modalTitleInput.value.trim();
   const description = modalDescInput.value.trim();
   const status = modalStatusSelect.value;
 
-  if (!title) {
-    alert("Please enter a task title.");
-    return;
-  }
-
-  if (!description) {
-    alert("Please enter a task description.");
+  if (!title || !description) {
+    alert("Please enter both a title and description.");
     return;
   }
 
   if (editingTaskId === null) {
-    // Add new task
     const maxId = tasks.length ? Math.max(...tasks.map(t => t.id)) : 0;
-    tasks.push({
-      id: maxId + 1,
-      title,
-      description,
-      status,
-    });
+    tasks.push({ id: maxId + 1, title, description, status });
   } else {
-    // Edit existing
     const task = tasks.find(t => t.id === editingTaskId);
     if (!task) return;
     task.title = title;
@@ -143,11 +175,15 @@ function saveTask() {
     task.status = status;
   }
 
+  saveTasksToStorage();
   renderTasks();
   closeModal();
 }
 
-// Event listeners
+// ==============================
+// Event Listeners
+// ==============================
+
 addTaskBtn.addEventListener("click", openAddModal);
 launchCareerBtn.addEventListener("click", openAddModal);
 closeModalBtn.addEventListener("click", closeModal);
@@ -156,7 +192,8 @@ modal.addEventListener("click", e => {
 });
 saveTaskBtn.addEventListener("click", saveTask);
 
-// Initial render
+// ==============================
+// Initialize App
+// ==============================
+
 renderTasks();
-document.body.style.overflow = "hidden"; // when modal open
-document.body.style.overflow = "";       // when modal close
