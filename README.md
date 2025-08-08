@@ -2,7 +2,7 @@
 
 ## 🔍 Overview
 
-**JSL04** is a fully responsive Kanban task board built with **HTML**, **CSS**, and **JavaScript**. Designed for real-time interactivity and clean user experience, this project features dynamic task management, modal-based CRUD operations, and responsive layout adaptation across desktop, tablet, and mobile screens. It emphasizes both functionality and modern UI aesthetics.
+**JSL05** is a fully responsive Kanban task board built with **HTML**, **CSS**, and **JavaScript**. Designed for real-time interactivity and clean user experience, this project features dynamic task management, modal-based CRUD operations, and responsive layout adaptation across desktop, tablet, and mobile screens. It emphasizes both functionality and modern UI aesthetics.
 
 ---
 
@@ -14,8 +14,7 @@ This version includes refined, human-friendly comments across all source files t
 - 🎯 JavaScript: Major logic blocks and functions are explained with concise, natural-language summaries for better understanding.
 - 💅 CSS: Section headers now describe layout intentions and styling roles, making the design flow easier to follow.
 
-These updates enhance the overall developer experience by making the code more self-explanatory and collaborative.
----
+## These updates enhance the overall developer experience by making the code more self-explanatory and collaborative.
 
 ## ✨ Features
 
@@ -143,4 +142,4 @@ function renderTasks() {
 
 ## 📄 License
 
-This project was built for learning and practice purposes as part of a front-end JavaScript challenge. It showcases DOM manipulation, responsive UI design, and interactive component logic using vanilla JS, HTML, and CSS.
+This project was built for learning and practice purposes as part of a front-end JavaScript challenge. It showcases DOM manipulation, responsive UI design, and interactive component logic using vanilla JavaScript, HTML, and CSS.
